@@ -1,0 +1,315 @@
+/* Enhanced Dark Theme with Blue-Purple Gradient */
+:root {
+  /* Background Colors - Dark Blue Gradient */
+  --bg-primary: #0a1628;
+  --bg-secondary: #0d1b2a;
+  --bg-tertiary: #1b263b;
+
+  /* Gradient Backgrounds - Dark Blue Theme */
+  --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+  --gradient-secondary: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #22d3ee 100%);
+  --gradient-blue-purple: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #0ea5e9 50%, #06b6d4 75%, #22d3ee 100%);
+  --gradient-number: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 50%, #22d3ee 100%);
+
+  /* Glass Effect - Dark Blue */
+  --glass-bg: rgba(13, 27, 42, 0.7);
+  --glass-border: rgba(59, 130, 246, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.3);
+
+  /* Neon Accent Colors - Blue Tones */
+  --accent-primary: #3b82f6;
+  --accent-secondary: #0ea5e9;
+  --accent-tertiary: #22d3ee;
+  --accent-glow: rgba(59, 130, 246, 0.8);
+
+  /* Text Colors - White and Light */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-muted: #b0b0b0;
+  --text-inverse: #0f0c29;
+
+  /* Status Colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+
+  /* Border & Divider */
+  --border-color: rgba(102, 126, 234, 0.2);
+  --border-light: rgba(102, 126, 234, 0.1);
+
+  /* Card & Component Styling */
+  --card-radius: 16px;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+
+  /* Typography */
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-2xl: 28px;
+  --font-size-3xl: 36px;
+  --font-size-4xl: 48px;
+
+  /* Compatibility aliases */
+  --primary-color: var(--accent-primary);
+  --primary-hover: var(--accent-tertiary);
+  --secondary-color: var(--bg-secondary);
+  --text-tertiary: var(--text-muted);
+  --border: var(--border-color);
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
+}
+
+body {
+  background: linear-gradient(135deg, #0a1628 0%, #1b263b 50%, #0d1b2a 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Headings with larger font sizes */
+h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.875rem;
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.625rem;
+}
+
+p {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Glassmorphism Utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--card-radius);
+}
+
+/* Gradient Text for Numbers */
+.gradient-number,
+.stat-number,
+.number-display {
+  background: var(--gradient-number);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: var(--font-size-3xl);
+}
+
+/* Neon Text Effect - Enhanced */
+.text-neon {
+  color: var(--text-primary);
+  font-weight: 700;
+  text-shadow: 0 0 10px var(--accent-glow),
+    0 0 20px var(--accent-glow),
+    0 0 30px var(--accent-primary),
+    0 0 40px var(--accent-secondary),
+    0 0 50px var(--accent-tertiary);
+  font-size: var(--font-size-xl);
+}
+
+/* Gradient Button */
+.btn-gradient {
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Neon Button Effect */
+.btn-neon {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border: 1px solid var(--accent-tertiary);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  box-shadow: 0 0 15px var(--accent-glow);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 25px var(--accent-glow), 0 0 35px var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--card-hover-shadow);
+  transform: translateY(-4px);
+  border-color: var(--accent-primary);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 5px;
+  border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent-tertiary), var(--accent-primary));
+}
+
+/* Glow Animation */
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px var(--accent-glow), 0 0 10px var(--accent-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 15px var(--accent-glow), 0 0 25px var(--accent-primary);
+  }
+}
+
+.glow-effect {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.pulse-effect {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Gradient Background Animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background: var(--gradient-blue-purple);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Text Utilities */
+.text-white {
+  color: #ffffff !important;
+}
+
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Font Size Utilities */
+.text-lg {
+  font-size: var(--font-size-lg);
+}
+
+.text-xl {
+  font-size: var(--font-size-xl);
+}
+
+.text-2xl {
+  font-size: var(--font-size-2xl);
+}
+
+.text-3xl {
+  font-size: var(--font-size-3xl);
+}
+
+.text-4xl {
+  font-size: var(--font-size-4xl);
+}

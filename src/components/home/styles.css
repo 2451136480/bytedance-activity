@@ -1,0 +1,554 @@
+/** 首页组件样式 */
+
+/* CSS变量定义 */
+:root {
+  /* 颜色系统 - 已移至 theme.css */
+
+  /* 间距系统 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* 圆角系统 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 50%;
+
+  /* 阴影系统 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* 字体系统 */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 24px;
+  --font-size-xxxl: 32px;
+
+  /* 动画系统 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* 网格系统 */
+  --grid-gap: var(--spacing-md);
+  --grid-min-width: 300px;
+}
+
+/* 全局样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+/* 动画定义 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 首页基础样式 */
+.home-page {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.home-header {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* 布局切换器样式 */
+.layout-switcher {
+  display: flex;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xs);
+  gap: var(--spacing-xs);
+  box-shadow: var(--shadow-sm);
+}
+
+.layout-switcher__button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.layout-switcher__button:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.layout-switcher__button--active {
+  background: var(--bg-primary);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.layout-switcher__button--active:hover {
+  background: var(--bg-primary);
+  color: var(--primary-hover);
+}
+
+.layout-switcher__icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 活动网格样式 */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-width), 1fr));
+  gap: var(--grid-gap);
+  padding: var(--spacing-lg) 0;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.activity-grid--loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.activity-grid--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* 活动卡片基础样式 */
+.activity-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  position: relative;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5),
+    0 8px 24px 0 rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.activity-card__image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.activity-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.activity-card:hover .activity-card__image {
+  transform: scale(1.05);
+}
+
+.activity-card__status {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-card__status--active {
+  background: var(--success-color);
+  color: var(--text-inverse);
+}
+
+.activity-card__status--upcoming {
+  background: var(--warning-color);
+  color: var(--text-primary);
+}
+
+.activity-card__status--ended {
+  background: var(--text-tertiary);
+  color: var(--text-inverse);
+}
+
+.activity-card__content {
+  padding: var(--spacing-md);
+}
+
+.activity-card__title {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.4;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.7), 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.activity-card__description {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.activity-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.activity-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.activity-card__meta-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.activity-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.activity-card__tag {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(59, 130, 246, 0.3));
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+.activity-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+}
+
+.activity-card__organizer {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.activity-card__participants {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+}
+
+/* 促销卡片样式 */
+.activity-card--promotion {
+  border: 2px solid var(--primary-color);
+}
+
+.activity-card--promotion:hover {
+  border-color: var(--primary-hover);
+}
+
+.promotion-badge {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  background: var(--primary-color);
+  color: var(--text-inverse);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.promotion-discount {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  color: var(--text-inverse);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.promotion-coupons {
+  margin-top: var(--spacing-sm);
+}
+
+.promotion-coupon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+
+.promotion-coupon:last-child {
+  margin-bottom: 0;
+}
+
+.promotion-coupon__value {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.promotion-coupon__condition {
+  color: var(--text-secondary);
+}
+
+/* 轮播组件样式 */
+.activity-carousel {
+  position: relative;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.activity-carousel__slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all var(--transition-slow);
+}
+
+.activity-carousel__controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.activity-carousel__controls:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.activity-carousel__controls--prev {
+  left: 20px;
+}
+
+.activity-carousel__controls--next {
+  right: 20px;
+}
+
+.activity-carousel__indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--spacing-sm);
+  z-index: 10;
+}
+
+.activity-carousel__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--text-tertiary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-carousel__indicator--active {
+  background: var(--primary-color);
+  transform: scale(1.2);
+}
+
+.activity-carousel__indicator:hover:not(.activity-carousel__indicator--active) {
+  background: var(--primary-hover);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  :root {
+    --grid-min-width: 280px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+  }
+
+  .home-page {
+    padding: var(--spacing-md) !important;
+  }
+
+  .home-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start !important;
+  }
+
+  .activity-card__image-container {
+    height: 160px;
+  }
+
+  .activity-carousel__controls {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .activity-carousel__controls--prev {
+    left: 10px;
+  }
+
+  .activity-carousel__controls--next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --grid-min-width: 100%;
+  }
+
+  .layout-switcher {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .layout-switcher__button {
+    justify-content: center;
+  }
+
+  .activity-card__meta {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+/* 暗色模式支持 - 已由全局主题统一管理 */
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  :root {
+    --text-secondary: #000000;
+    --text-tertiary: #333333;
+    --border-color: #000000;
+  }
+}
+
+/* 减少动画模式支持 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

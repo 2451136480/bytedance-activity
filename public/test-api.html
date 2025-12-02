@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动API测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #1677ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #52c41a;
+        }
+        button {
+            background: #1677ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #4096ff;
+        }
+        button:active {
+            background: #0958d9;
+        }
+        pre {
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            padding: 10px;
+            overflow-x: auto;
+            max-height: 300px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+        .status.error {
+            background: #fff2f0;
+            color: #ff4d4f;
+            border: 1px solid #ffccc7;
+        }
+        .status.loading {
+            background: #e6f7ff;
+            color: #1677ff;
+            border: 1px solid #91d5ff;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>活动管理API测试控制台</h1>
+    
+    <!-- 基本测试部分 -->
+    <div class="test-section">
+        <h3>基本API测试</h3>
+        <div class="button-group">
+            <button id="test-home-activities">测试获取首页活动</button>
+            <button id="test-activity-list">测试获取活动列表</button>
+            <button id="test-activity-detail">测试获取活动详情</button>
+        </div>
+        <div class="status" id="basic-status">准备就绪</div>
+        <pre id="basic-result"></pre>
+    </div>
+    
+    <!-- 筛选测试部分 -->
+    <div class="test-section">
+        <h3>高级筛选测试</h3>
+        <div class="button-group">
+            <button id="test-filter-ongoing">筛选进行中活动</button>
+            <button id="test-search">搜索活动</button>
+            <button id="test-time-filter">时间范围筛选</button>
+        </div>
+        <div class="status" id="filter-status">准备就绪</div>
+        <pre id="filter-result"></pre>
+    </div>
+    
+    <!-- 错误处理测试 -->
+    <div class="test-section">
+        <h3>错误处理测试</h3>
+        <div class="button-group">
+            <button id="test-invalid-id">测试无效ID</button>
+            <button id="test-invalid-params">测试无效参数</button>
+            <button id="test-network-delay">测试网络延迟</button>
+        </div>
+        <div class="status" id="error-status">准备就绪</div>
+        <pre id="error-result"></pre>
+    </div>
+    
+    <!-- 重置按钮 -->
+    <button id="reset-all">重置所有测试</button>
+    
+    <script type="module">
+        // 导入activityAPI模块
+        import activityAPI from '../src/services/activityAPI.js';
+        
+        // 工具函数
+        function setStatus(elementId, status, isSuccess = null) {
+            const element = document.getElementById(elementId);
+            element.textContent = status;
+            
+            // 移除所有状态类
+            element.classList.remove('success', 'error', 'loading');
+            
+            // 添加状态类
+            if (isSuccess === true) {
+                element.classList.add('success');
+            } else if (isSuccess === false) {
+                element.classList.add('error');
+            } else if (isSuccess === null) {
+                element.classList.add('loading');
+            }
+        }
+        
+        function displayResult(elementId, result) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(result, null, 2);
+        }
+        
+        function resetTest(statusId, resultId) {
+            setStatus(statusId, '准备就绪', undefined);
+            document.getElementById(resultId).textContent = '';
+        }
+        
+        // 基本API测试
+        document.getElementById('test-home-activities').addEventListener('click', async () => {
+            resetTest('basic-status', 'basic-result');
+            setStatus('basic-status', '获取首页活动中...', null);
+            
+            try {
+                const result = await activityAPI.getHomeActivities({ limit: 3 });
+                setStatus('basic-status', '获取首页活动成功', true);
+                displayResult('basic-result', result);
+            } catch (error) {
+                setStatus('basic-status', '获取首页活动失败', false);
+                displayResult('basic-result', { error: error.message });
+            }
+        });
+        
+        document.getElementById('test-activity-list').addEventListener('click', async () => {
+            resetTest('basic-status', 'basic-result');
+            setStatus('basic-status', '获取活动列表中...', null);
+            
+            try {
+                const result = await activityAPI.getActivityList({ 
+                    page: 1, 
+                    pageSize: 5 
+                });
+                setStatus('basic-status', '获取活动列表成功', true);
+                displayResult('basic-result', result);
+            } catch (error) {
+                setStatus('basic-status', '获取活动列表失败', false);
+                displayResult('basic-result', { error: error.message });
+            }
+        });
+        
+        document.getElementById('test-activity-detail').addEventListener('click', async () => {
+            resetTest('basic-status', 'basic-result');
+            setStatus('basic-status', '获取活动详情中...', null);
+            
+            try {
+                const result = await activityAPI.getActivityDetail('1');
+                setStatus('basic-status', '获取活动详情成功', true);
+                displayResult('basic-result', result);
+            } catch (error) {
+                setStatus('basic-status', '获取活动详情失败', false);
+                displayResult('basic-result', { error: error.message });
+            }
+        });
+        
+        // 高级筛选测试
+        document.getElementById('test-filter-ongoing').addEventListener('click', async () => {
+            resetTest('filter-status', 'filter-result');
+            setStatus('filter-status', '筛选进行中活动...', null);
+            
+            try {
+                const result = await activityAPI.getActivityList({
+                    page: 1,
+                    pageSize: 10,
+                    status: activityAPI.constants.ACTIVITY_STATUS.ONGOING
+                });
+                setStatus('filter-status', '筛选成功', true);
+                displayResult('filter-result', result);
+            } catch (error) {
+                setStatus('filter-status', '筛选失败', false);
+                displayResult('filter-result', { error: error.message });
+            }
+        });
+        
+        document.getElementById('test-search').addEventListener('click', async () => {
+            resetTest('filter-status', 'filter-result');
+            setStatus('filter-status', '搜索活动中...', null);
+            
+            try {
+                const result = await activityAPI.getActivityList({
+                    page: 1,
+                    pageSize: 10,
+                    keyword: '直播'
+                });
+                setStatus('filter-status', '搜索成功', true);
+                displayResult('filter-result', result);
+            } catch (error) {
+                setStatus('filter-status', '搜索失败', false);
+                displayResult('filter-result', { error: error.message });
+            }
+        });
+        
+        document.getElementById('test-time-filter').addEventListener('click', async () => {
+            resetTest('filter-status', 'filter-result');
+            setStatus('filter-status', '时间范围筛选中...', null);
+            
+            try {
+                const today = new Date();
+                const nextMonth = new Date();
+                nextMonth.setMonth(today.getMonth() + 1);
+                
+                const result = await activityAPI.getActivityList({
+                    page: 1,
+                    pageSize: 10,
+                    startTime: today.toISOString(),
+                    endTime: nextMonth.toISOString()
+                });
+                setStatus('filter-status', '时间筛选成功', true);
+                displayResult('filter-result', result);
+            } catch (error) {
+                setStatus('filter-status', '时间筛选失败', false);
+                displayResult('filter-result', { error: error.message });
+            }
+        });
+        
+        // 错误处理测试
+        document.getElementById('test-invalid-id').addEventListener('click', async () => {
+            resetTest('error-status', 'error-result');
+            setStatus('error-status', '测试无效ID...', null);
+            
+            try {
+                await activityAPI.getActivityDetail('999999'); // 不存在的ID
+                setStatus('error-status', '预期失败但成功了', false);
+                displayResult('error-result', { message: '应该抛出错误但没有' });
+            } catch (error) {
+                setStatus('error-status', '成功捕获错误', true);
+                displayResult('error-result', { 
+                    error: error.message,
+                    errorType: '资源不存在错误',
+                    handledCorrectly: true
+                });
+            }
+        });
+        
+        document.getElementById('test-invalid-params').addEventListener('click', async () => {
+            resetTest('error-status', 'error-result');
+            setStatus('error-status', '测试无效参数...', null);
+            
+            try {
+                await activityAPI.getActivityList({ 
+                    status: 'invalid_status', // 无效的状态
+                    pageSize: 200 // 超出限制的pageSize
+                });
+                setStatus('error-status', '预期失败但成功了', false);
+                displayResult('error-result', { message: '应该抛出错误但没有' });
+            } catch (error) {
+                setStatus('error-status', '成功捕获参数验证错误', true);
+                displayResult('error-result', { 
+                    error: error.message,
+                    errorType: '参数验证错误',
+                    handledCorrectly: true
+                });
+            }
+        });
+        
+        document.getElementById('test-network-delay').addEventListener('click', async () => {
+            resetTest('error-status', 'error-result');
+            setStatus('error-status', '测试网络延迟...', null);
+            
+            try {
+                const startTime = Date.now();
+                await activityAPI.getHomeActivities({ 
+                    limit: 3,
+                    includeMockDelay: true 
+                });
+                const endTime = Date.now();
+                const delay = endTime - startTime;
+                
+                setStatus('error-status', '延迟测试完成', true);
+                displayResult('error-result', { 
+                    message: '延迟测试成功',
+                    actualDelayMs: delay,
+                    delayWithinExpectedRange: delay >= 300 && delay <= 1500
+                });
+            } catch (error) {
+                setStatus('error-status', '延迟测试出错', false);
+                displayResult('error-result', { error: error.message });
+            }
+        });
+        
+        // 重置所有测试
+        document.getElementById('reset-all').addEventListener('click', () => {
+            resetTest('basic-status', 'basic-result');
+            resetTest('filter-status', 'filter-result');
+            resetTest('error-status', 'error-result');
+            alert('所有测试已重置！');
+        });
+        
+        // 显示导入成功信息
+        console.log('✅ 活动API模块导入成功');
+        console.log('可用的活动状态常量:', activityAPI.constants.ACTIVITY_STATUS);
+        console.log('可用的活动类型常量:', activityAPI.constants.ACTIVITY_TYPE);
+        
+    </script>
+</body>
+</html>
