@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import './layout.css';
+import { guideManager } from '../utils/guide/IntroGuideManager';
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +24,14 @@ const Layout = () => {
       label: '活动列表',
       icon: '📋',
       matchPattern: /^\/activities(\/\d+)?$/
+    },
+    {
+      id: 'guide',
+      path: '#',
+      label: '新手指南',
+      icon: '📚',
+      matchPattern: null,
+      isGuide: true
     }
   ];
 
@@ -46,11 +55,30 @@ const Layout = () => {
 
   // 判断是否为当前活动路由
   const isActiveRoute = (menuItem) => {
+    // 新手指南按钮始终非激活状态
+    if (menuItem.isGuide) {
+      return false;
+    }
     return menuItem.matchPattern.test(location.pathname);
   };
 
   // 处理菜单点击事件
   const handleMenuClick = (menuItem, event) => {
+    // 特殊处理新手指南按钮
+    if (menuItem.isGuide) {
+      event.preventDefault();
+      
+      // 启动当前页面的引导
+      guideManager.startGuide(location.pathname);
+      
+      // 关闭移动端菜单
+      if (isMenuOpen && window.innerWidth <= 768) {
+        closeMenu();
+      }
+      
+      return;
+    }
+    
     // 阻止默认行为，先执行动画再导航
     if (isMenuOpen && window.innerWidth <= 768) {
       event.preventDefault();
